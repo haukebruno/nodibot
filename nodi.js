@@ -19,6 +19,7 @@ var request = require('request');
 var fs = require('fs');
 //var YQL = require('yql');
 var weather = require('openweathermap')
+var alledinger = require('./dict.json');
 
 var verwirrtes = ["ups", "oh hi", "oh oh...", "na sowas", "oh.. du warst nicht gemeint", "oh.. hi", "argh, mist", "oh scheisse", "oh verdammt", "wenn man vom teufel spricht", "gutes timing", "hm, das ist jetzt unangenehm", "oh, peinlich.."];
 var gruesse = ["hi", "hallo", "tag", "moin", "mahlzeit", "tach", "hallo fans"];
@@ -176,6 +177,15 @@ function verabschieden(ziel) {
     }
 }
 
+function warnung(ziel) {
+
+  var warnnummor = (Math.floor(Math.random()*alledinger.warnhinweysze.length));
+  var aktuellewarnung = "ACHTYNG: " + alledinger.warnhinweysze[warnnummor][warnnummor];
+  sleep.sleep(2);
+  bot.say(ziel, aktuellewarnung);
+  
+}
+
 function begruessen(ziel, person) {
     var beleidigung = beleidigungen[Math.floor(Math.random() * beleidigungen.length)];
     var liebe = lobe[Math.floor(Math.random() * lobe.length)];
@@ -300,6 +310,8 @@ function reagieren(absender, ziel, nachricht) {
       greeting(ziel, result[1]);
     } else if(nachricht.startsWith("!wetter")) {
       getWeather(absender, ziel, nachricht);
+    } else if(nachricht.startsWith("!warnhinweysz")) {
+      warnung(ziel);
     } else if(isPhrase(ziel, nachricht)) {
     } else {
       var antwortboese = reaktionboese[Math.floor(Math.random() * reaktionboese.length)];
